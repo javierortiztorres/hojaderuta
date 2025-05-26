@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de Posgrado - Hoja de Ruta</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* INICIO DE CSS INCRUSTADO */
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
+        :root {
+            --primary-yellow: #f8c046;
+            --text-dark: #333;
+            --text-light: #fff;
+            --node-bg: #f8c046;
+            --node-border: #f8c046;
+            --line-color: #999; /* This will mostly be overridden by the background image */
+            --tooltip-bg: #fff;
+            --tooltip-border: #ccc;
+            --tooltip-text-color: #666;
+            --link-color: #007bff;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: var(--tooltip-bg);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden; /* Ensures header's border-radius is respected */
+        }
+
+        /* Header Section */
+        .main-header {
+            background-color: var(--primary-yellow);
+            color: var(--text-dark);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: relative;
+            border-radius: 0 0 50px 0; /* Creates the rounded bottom-right corner */
+            padding-bottom: 60px; /* Space for header tooltip to appear below */
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .compass-icon {
+            font-size: 4em;
+            color: var(--text-dark);
+            margin-right: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header-text h1 {
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .header-text h2 {
+            margin: 5px 0 10px 0;
+            font-size: 1.4em;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .header-text p {
+            margin: 0;
+            font-size: 1.1em;
+            font-weight: 400;
+            color: var(--text-dark);
+        }
+
+        /* Header Tooltip */
+        .header-tooltip-container {
+            position: absolute;
+            top: 100%; /* Position below the header */
+            left: 20%; /* Adjust as needed */
+            transform: translateX(-50%); /* Center the tooltip relative to its left position */
+            z-index: 10;
+            width: 250px;
+            background-color: var(--tooltip-bg);
+            border: 1px solid var(--tooltip-border);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            box-sizing: border-box; /* Include padding in width */
+            display: none;
+        }
+
+        .header-tooltip-container::before { /* Outer arrow for border */
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent transparent var(--tooltip-border) transparent;
+            margin-bottom: -1px; /* Overlap with border of tooltip body */
+        }
+
+        .header-tooltip-container::after { /* Inner arrow for background */
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 9px;
+            border-style: solid;
+            border-color: transparent transparent var(--tooltip-bg) transparent;
+        }
+
+        .header-tooltip-content h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.1em;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .header-tooltip-content p {
+            margin: 0 0 10px 0;
+            font-size: 0.9em;
+            color: var(--tooltip-text-color);
+        }
+
+        .header-tooltip-content .optional-link {
+            font-size: 0.9em;
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        .header-tooltip-content .optional-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Roadmap Section */
+        .roadmap {
+            position: relative;
+            padding: 52px 20px;
+            min-height: 400px;
+            overflow: visible; /* Allows content, like the paper plane, to extend beyond its boundaries */
+
+            /* Background image for the dotted line */
+            background-image: url('image_3ece68.png'); /* IMPORTANT: Ensure this path is correct */
+            background-repeat: no-repeat;
+            background-position: center; /* Adjust to align your image. Could be 'top left' etc. */
+            background-size: contain; /* Or '100% 100%' if you want it to fill the space exactly */
+            margin: 30px;
+            background-color: #fff;
+        }
+
+        /* Remove the old CSS-generated dotted line */
+        .roadmap::before {
+            content: none;
+        }
+
+        /* Individual Nodes */
+        .node {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: var(--node-bg);
+            border: 3px solid var(--node-border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            /*z-index: 2; /* Above the background image */
+            cursor: pointer; /* Indicate it's interactive */
+        }
+
+        /* Positioning for each node - FINE-TUNE THESE based on your background image */
+        .node-1 { top: 75%; left: 0%; }
+        .node-2 { top: 30%; left: 15%; }
+        .node-3 { top: -3%; left: 23%; }
+        .node-4 { top: 2%; left: 45%; }
+        .node-5 { top: 50%; left: 50%; }
+        .node-6 { top: 15%; left: 65%; }
+        .node-7 { top: 60%; left: 74%; }
+        .node-8 { top: 32%; left: 85%; }
+        .node-9 { top: 16%; left: 78%; }
+
+        /* Node Tooltip Styles */
+        .node-tooltip-container {
+            position: absolute;
+            /* Initial positioning to be above the node */
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100%); /* Center horizontally and move up by own height */
+            z-index: 10; /* Above everything else */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s; /* Smooth fade-in/out */
+            pointer-events: none; /* Allows clicks through the hidden tooltip */
+        }
+
+        /* Show tooltip on node hover */
+        .node:hover .node-tooltip-container {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto; /* Enable clicks on visible tooltip */
+        }
+
+        .node-tooltip-content {
+            width: 180px; /* Adjust width as needed */
+            background-color: var(--tooltip-bg);
+            border: 1px solid var(--tooltip-border);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 6px;
+            box-sizing: border-box; /* Include padding in width */
+            text-align: center;
+            font-size: 18px;
+            z-index: 10;
+        }
+
+        .node-tooltip-content::after { /* Inner arrow for background */
+            content: '';
+            position: absolute;
+            top: 100%; /* Position below the tooltip body */
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px;
+            border-style: solid;
+            border-color: var(--tooltip-bg) transparent transparent transparent;
+        }
+
+        .node-tooltip-content::before { /* Outer arrow for border */
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 9px;
+            border-style: solid;
+            border-color: var(--tooltip-border) transparent transparent transparent;
+            margin-top: -1px; /* Overlap with border */
+        }
+
+        .node-tooltip-content h4 {
+            margin: 0 0 5px 0;
+            font-size: 1em;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .node-tooltip-content p {
+            margin: 0 0 10px 0;
+            font-size: 0.8em;
+            color: var(--tooltip-text-color);
+            line-height: 1.4;
+        }
+
+        .node-tooltip-content a {
+            font-size: 0.8em;
+            color: var(--link-color);
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .node-tooltip-content a:hover {
+            text-decoration: underline;
+        }
+
+        /* Paper Plane Icon */
+        .paper-plane {
+            position: absolute;
+            /* Adjust these values to align exactly with the end of your image's dotted line */
+            top: 10px; /* Example: adjust to be at the desired height */
+            right: 35px; /* Example: adjust to be at the desired horizontal position */
+            font-size: 3em;
+            color: #999;
+            transform: rotate(45deg); /* To make it look like flying */
+            z-index: 1; /* Ensure it's on top of everything */
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .main-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding-bottom: 20px;
+            }
+
+            .header-text {
+                margin-top: 15px;
+            }
+
+            .header-tooltip-container {
+                position: static;
+                transform: none;
+                width: 90%;
+                margin: 20px auto;
+            }
+
+            .header-tooltip-container::before, .header-tooltip-container::after {
+                display: none;
+            }
+
+            .roadmap {
+                padding: 30px 10px;
+                min-height: auto;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+                background-image: none; /* Hide the background image on small screens */
+            }
+
+            .node {
+                position: static;
+                margin: 0 auto;
+            }
+
+            .roadmap::before {
+                display: none;
+            }
+
+            /* Node tooltips for mobile: make them always visible and flow */
+            .node-tooltip-container {
+                position: static;
+                transform: none;
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+                margin-top: 10px;
+                width: 100%;
+                text-align: center;
+            }
+
+            .node-tooltip-content {
+                width: auto;
+            }
+
+            .node-tooltip-content::before, .node-tooltip-content::after {
+                display: none;
+            }
+
+            .paper-plane {
+                position: static;
+                margin-top: 20px;
+                transform: none;
+            }
+        }
+        /* FIN DE CSS INCRUSTADO */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="main-header">
+            <div class="header-content">
+                <div class="compass-icon">
+                    <i class="fas fa-compass"></i>
+                </div>
+                <div class="header-text">
+                    <h1>Curso de Posgrado</h1>
+                    <h2>Herramientas de Ruta para la enseñanza</h2>
+                    <p>Hoja de Ruta</p>
+                </div>
+            </div>
+            <div class="header-tooltip-container">
+                <div class="header-tooltip-content">
+                    <h3>TUTORÍA: Módulos 1 y 2</h3>
+                    <p>Fecha: 02 de octubre (15 a 16 hs)</p>
+                    <a href="#" class="optional-link">Opcional</a>
+                </div>
+            </div>
+        </header>
+
+        <section class="roadmap">
+            <div class="node node-1">
+                <i class="fas fa-hand-pointer"></i>
+                <div class="node-tooltip-container">
+                    <div class="node-tooltip-content">
+                        <h4>Módulo 1: Introducción</h4>
+                        <p>Descripción breve del módulo de inicio y objetivos.</p>
+                        <a href="#">Ver detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="node node-2">
+                <i class="fas fa-file-alt"></i>
+                <div class="node-tooltip-container">
+                    <div class="node-tooltip-content">
+                        <h4>Módulo 2: Marco Teórico</h4>
+                        <p>Fundamentos y conceptos clave del curso.</p>
+                        <a href="#">Ir a recursos</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="node node-3">
+                <i class="fas fa-laptop"></i>
+                <div class="node-tooltip-container">
+                    <div class="node-tooltip-content">
+                        <h4>Módulo 3: Sesión Síncrona</h4>
+                        <p>Clase virtual interactiva en vivo.</p>
+                        <a href="#">Entrar a clase</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="node node-4">
+                <i class="fas fa-file-alt"></i>
+                <div class="node-tooltip-container">
+                    <div class="node-tooltip-content">
+                        <h4>Módulo 4: Lecturas Adicionales</h4>
+                        <p>Artículos y bibliografía complementaria.</p>
+                        <a href="#">Descargar lecturas</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="node node-5">
+                <i class="fas fa-file-alt"></i>
+                <div class="node-tooltip-container">
+                    <div class="node-tooltip-content">
+                        <h4>Módulo 5: Actividad Práctica</h4>
+                        <p>Ejercicio aplicado para afianzar conocimientos.</p>
+                        <a href="#">Comenzar actividad</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="node node-6">
+                <i class="fas fa-laptop"></i>
+                <div class="node-tooltip-container">
+                    <div class="node-tooltip-content">
+                        <h4>Módulo 6: Taller Online</h4>
+                        <p>Taller guiado sobre herramientas digitales.</p>
+                        <a href="#">Acceder al taller</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="node node-7">
+                <i class="fas fa-video"></i>
+                <div class="node-tooltip-container">
+                    <div class="node-tooltip-content">
+                        <h4>Módulo 7: Webinar Especial</h4>
+                        <p>Conferencia en video con expertos.</p>
+                        <a href="#">Ver grabación</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="node node-8">
+                <i class="fas fa-file-alt"></i>
+                <div class="node-tooltip-container">
+                    <div class="node-tooltip-content">
+                        <h4>Módulo 8: Proyecto Integrador</h4>
+                        <p>Guía para el desarrollo de tu proyecto final.</p>
+                        <a href="#">Iniciar proyecto</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="node node-9">
+                <i class="fas fa-clipboard-list"></i>
+                <div class="node-tooltip-container">
+                    <div class="node-tooltip-content">
+                        <h4>Módulo 9: Evaluación Final</h4>
+                        <p>Instrucciones y requisitos para la certificación.</p>
+                        <a href="#">Revisar requisitos</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="paper-plane">
+                <i class="fas fa-paper-plane"></i>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
